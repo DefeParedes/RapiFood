@@ -20,10 +20,7 @@ public class Mesa {
         this.estado = estado;
     }
     
-    public Mesa(int max_comensales, boolean estado) {
-        this.max_comensales = max_comensales;
-        this.estado = estado;
-    }
+    public Mesa() {}
 
     public void setId(int id) {
         this.id = id;
@@ -47,8 +44,5 @@ public class Mesa {
 
     public boolean isEstado() {
         return estado;
-    }
-
-    public Mesa() {
     }
 }

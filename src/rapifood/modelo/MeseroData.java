@@ -18,92 +18,107 @@ import javax.swing.JOptionPane;
  *
  * @author Fedep
  */
-public class MesaData {
+public class MeseroData {
     private final Connection con;
     
-    public MesaData(Conexion conexion){
+    public MeseroData(Conexion conexion){
         con = conexion.getConnection();
     }
     
-    public void guardarMesa(Mesa mesa){
+    public void guardarMesero(Mesero mesero){
         
         try{     
             //CONSULTA A REALIZAR
-            String sql = "INSERT INTO mesa(max_comensales,estado,id) VALUES (?,?,?);";
+            String sql = "INSERT INTO mesero(apellido,nombre,cuit,estado) VALUES (?,?,?,?);";
                 
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);    
             //PREPARANDO LOS ARGUMENTOS A ENVIAR.
-            ps.setInt(1, mesa.getMax_comensales());
-            ps.setBoolean(2, mesa.isEstado());
-            ps.setInt(3, mesa.getId());
+            ps.setString(1, mesero.getApellido());
+            ps.setString(2, mesero.getNombre());
+            ps.setInt(3, mesero.getCuit());
+            ps.setBoolean(4, mesero.isEstado());
             
             //CONSULTA ENVIADA.
             ps.executeUpdate();
+            
+            //COLECCION CON CLAVES GENERADAS.
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if(rs.next())
+                mesero.setId(rs.getInt(1));
+            else
+                System.out.println("Error no hay ID"); 
             
             //CERRANDO CONEXION.
             ps.close();
         }
         catch(SQLException e){
-            JOptionPane.showMessageDialog(null,"Error al guardar la mesa.");
+            JOptionPane.showMessageDialog(null,"Error al guardar al mesero.");
         }
     }
     
-    public List<Mesa> obtenerMesas(){
-        List<Mesa> mesas = new ArrayList<>();
+    public List<Mesero> obtenerMeseros(){
+        List<Mesero> meseros = new ArrayList<>();
         try{
             //CONSULTA A REALIZAR.
-            String sql = "SELECT * FROM mesa;";
+            String sql = "SELECT * FROM mesero;";
             
             PreparedStatement statement = con.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
-            Mesa mesa;
+            Mesero mesero;
             
             //MIENTRAS HAYA MESAS HACER
             while(resultSet.next()){
-                mesa = new Mesa();
-                mesa.setId(resultSet.getInt("id"));
-                mesa.setMax_comensales(resultSet.getInt("max_comensales"));
-                mesa.setEstado(resultSet.getBoolean("estado"));
-                mesas.add(mesa);
+                mesero = new Mesero();
+                mesero.setId(resultSet.getInt("id"));
+                mesero.setApellido(resultSet.getString("apellido"));
+                mesero.setNombre(resultSet.getString("nombre"));
+                mesero.setCuit(resultSet.getInt("cuit"));
+                mesero.setEstado(resultSet.getBoolean("estado"));
+                meseros.add(mesero);
             }
             statement.close();
         }
         catch(SQLException e){
-            System.out.println("Error al obtener las mesas: "+e.getMessage());
+            System.out.println("Error al obtener los meseros: "+e.getMessage());
         }
-        return mesas;
+        return meseros;
     }
     
-    public Mesa buscarMesa(int id){
-        Mesa mesa=null;
-        String sql = "SELECT * FROM mesa WHERE id=?";
+    public Mesero buscarMesero(int id){
+        Mesero mesero=null;
+        String sql = "SELECT * FROM mesero WHERE id=?";
         try{
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
-                mesa = new Mesa();
-                mesa.setId(rs.getInt("id"));
-                mesa.setMax_comensales(rs.getInt("max_comensales"));
-                mesa.setEstado(rs.getBoolean("estado"));
+                mesero = new Mesero();
+                mesero.setId(rs.getInt("id"));
+                mesero.setApellido(rs.getString("apellido"));
+                mesero.setNombre(rs.getString("nombre"));
+                mesero.setCuit(rs.getInt("cuit"));
+                mesero.setEstado(rs.getBoolean("estado"));
             }
             ps.close();
         }
         catch(SQLException e){
             System.out.println("Error: "+e.getMessage());
         }
-        return mesa;
+        return mesero;
     }
     
-    public void actualizarMesa(Mesa mesa){
+    public void actualizarMesero(Mesero mesero){
         try{
-            String sql = ("UPDATE mesa SET max_comensales=?,estado=? WHERE id=?");
+            String sql = ("UPDATE mesero SET apellido=?,nombre=?,cuit=?,estado=? WHERE id=?");
             
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, mesa.getMax_comensales());
-            ps.setBoolean(2, mesa.isEstado());
-            ps.setInt(3, mesa.getId());
+            ps.setString(1, mesero.getApellido());
+            ps.setString(2, mesero.getNombre());
+            ps.setInt(3, mesero.getCuit());
+            ps.setBoolean(4, mesero.isEstado());
+            ps.setInt(5, mesero.getId());
             
             ps.executeUpdate();
             
@@ -114,8 +129,8 @@ public class MesaData {
         }
     }
     
-    public void borrarMesa (int id){
-        String sql = "DELETE FROM mesa WHERE id=?";
+    public void borrarMesero (int id){
+        String sql = "DELETE FROM mesero WHERE id=?";
         
         try{
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);

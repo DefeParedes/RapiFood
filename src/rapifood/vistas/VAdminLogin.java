@@ -202,8 +202,8 @@ public class VAdminLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnVolver
 
     private void BtnIngresar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnIngresar
-        String Usuario = "Admin";
-        String Contraseña = "12345";
+        String Usuario = "";
+        String Contraseña = "";
         
         if (Usuario.equals(jTextUsuario.getText()) && Contraseña.equals(jTextContraseña.getText()))
         {

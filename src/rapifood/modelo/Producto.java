@@ -25,6 +25,13 @@ public Producto(int id,String nom, double pre, boolean est){
     this.nombre= nom;
     this.precio= pre;
 }
+
+    public Producto(String nombre, double precio, boolean estado) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.estado = estado;
+    }
+
 /**
      * @return the id
      */

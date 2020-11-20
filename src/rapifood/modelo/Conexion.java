@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rapifood.modelo;
 
 import java.sql.Connection;
@@ -14,18 +9,19 @@ import java.sql.SQLException;
  * @author Fedep
  */
 public class Conexion {
+    //URL CONFORMADA DE URL+BASE Y VERIFICACION DE INGRESO A LA BD
     private final String base = "rapifood";
     private final String url = "jdbc:mysql://localhost:3306/"+base;
     private final String user = "root";
     private final String pass = "";
-    //1 - DECLARO VARIABLE CONNECTION
+    //1 - DECLARAR VARIABLE CONNECTION
     private Connection con; 
     
     public Connection getConnection(){
         try{
-            //2 - DECLARO DRIVER
+            //2 - DECLARAR DRIVER
             Class.forName("com.mysql.jdbc.Driver");
-            //3 - ESTABLEZCO CONEXION
+            //3 - ESTABLECER CONEXION
             con = (Connection) DriverManager.getConnection(url,user,pass);
         }
         catch(SQLException | ClassNotFoundException e){

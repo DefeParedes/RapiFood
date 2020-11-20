@@ -13,10 +13,10 @@ public class Mesero {
     private int id;
     private String apellido;
     private String nombre;
-    private int cuit;
+    private String cuit;
     private boolean estado;
 
-    public Mesero(String apellido, String nombre, int cuit, boolean estado) {
+    public Mesero(String apellido, String nombre, String cuit, boolean estado) {
         this.apellido = apellido;
         this.nombre = nombre;
         this.cuit = cuit;
@@ -38,7 +38,7 @@ public class Mesero {
         return nombre;
     }
 
-    public int getCuit() {
+    public String getCuit() {
         return cuit;
     }
 
@@ -58,7 +58,7 @@ public class Mesero {
         this.nombre = nombre;
     }
 
-    public void setCuit(int cuit) {
+    public void setCuit(String cuit) {
         this.cuit = cuit;
     }
 

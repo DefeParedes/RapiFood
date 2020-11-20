@@ -13,7 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import rapifood.modelo.Conexion;
 
 /**
  *
@@ -31,18 +30,27 @@ private final Connection con;
         
         try{     
             //CONSULTA A REALIZAR
-            String sql = "INSERT INTO producto(id,nombre, precio, estado) VALUES (?,?,?,?);";
+            String sql = "INSERT INTO producto(nombre, precio, estado) VALUES (?,?,?);";
                 
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);    
             //PREPARANDO LOS ARGUMENTOS A ENVIAR.
                        
-            ps.setInt(1, producto.getId());
-            ps.setString(2, producto.getNombre());
-            ps.setDouble(3, producto.getPrecio());
-            ps.setBoolean(4, producto.isEstado());
+            ps.setString(1, producto.getNombre());
+            ps.setDouble(2, producto.getPrecio());
+            ps.setBoolean(3, producto.isEstado());
             
             //CONSULTA ENVIADA.
             ps.executeUpdate();
+            
+            //COLECCION CON CLAVES GENERADAS.
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if(rs.next())
+                producto.setId(rs.getInt(1));
+            else
+                System.out.println("Error no hay ID"); 
+            
+            //CERRANDO CONEXION.
             ps.close();
             
             return true;

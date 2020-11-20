@@ -35,7 +35,7 @@ public class MeseroData {
             //PREPARANDO LOS ARGUMENTOS A ENVIAR.
             ps.setString(1, mesero.getApellido());
             ps.setString(2, mesero.getNombre());
-            ps.setInt(3, mesero.getCuit());
+            ps.setString(3, mesero.getCuit());
             ps.setBoolean(4, mesero.isEstado());
             
             //CONSULTA ENVIADA.
@@ -73,7 +73,7 @@ public class MeseroData {
                 mesero.setId(resultSet.getInt("id"));
                 mesero.setApellido(resultSet.getString("apellido"));
                 mesero.setNombre(resultSet.getString("nombre"));
-                mesero.setCuit(resultSet.getInt("cuit"));
+                mesero.setCuit(resultSet.getString("cuit"));
                 mesero.setEstado(resultSet.getBoolean("estado"));
                 meseros.add(mesero);
             }
@@ -98,7 +98,7 @@ public class MeseroData {
                 mesero.setId(rs.getInt("id"));
                 mesero.setApellido(rs.getString("apellido"));
                 mesero.setNombre(rs.getString("nombre"));
-                mesero.setCuit(rs.getInt("cuit"));
+                mesero.setCuit(rs.getString("cuit"));
                 mesero.setEstado(rs.getBoolean("estado"));
             }
             ps.close();
@@ -116,7 +116,7 @@ public class MeseroData {
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, mesero.getApellido());
             ps.setString(2, mesero.getNombre());
-            ps.setInt(3, mesero.getCuit());
+            ps.setString(3, mesero.getCuit());
             ps.setBoolean(4, mesero.isEstado());
             ps.setInt(5, mesero.getId());
             

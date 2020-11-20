@@ -35,15 +35,16 @@ public class ReservaData {
         
         try{     
             //CONSULTA A REALIZAR
-            String sql = "INSERT INTO reserva(nombre_cliente,apellido_cliente,turno_reserva,estado,id_mesa) VALUES (?,?,?,?,?);";
+            String sql = "INSERT INTO reserva(nombre_cliente,apellido_cliente,turno_reserva,estado,id_mesa,cant_comensales) VALUES (?,?,?,?,?,?);";
                 
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);    
             //PREPARANDO LOS ARGUMENTOS A ENVIAR.
             ps.setString(1, reserva.getNombre_cliente());
             ps.setString(2, reserva.getApellido_cliente());
-            ps.setDate(3, reserva.getTurno_reserva());
+            ps.setTimestamp(3, reserva.getTurno_reserva());
             ps.setBoolean(4, reserva.isEstado());
             ps.setInt(5, reserva.getMesa().getId());
+            ps.setInt(6, reserva.getCant_comensales());
             
             //CONSULTA ENVIADA.
             ps.executeUpdate();
@@ -80,9 +81,10 @@ public class ReservaData {
                 reserva.setId(resultSet.getInt("id"));
                 reserva.setApellido_cliente(resultSet.getString("apellido_cliente"));
                 reserva.setNombre_cliente(resultSet.getString("nombre_cliente"));
-                reserva.setTurno_reserva(resultSet.getDate("turno_reserva"));
+                reserva.setTurno_reserva(resultSet.getTimestamp("turno_reserva"));
                 reserva.setEstado(resultSet.getBoolean("estado"));
                 reserva.setMesa(buscarMesa(resultSet.getInt("id_mesa")));
+                reserva.setCant_comensales(resultSet.getInt("cant_comensales"));
                 reservas.add(reserva);
             }
             statement.close();
@@ -106,9 +108,10 @@ public class ReservaData {
                 reserva.setId(rs.getInt("id"));
                 reserva.setNombre_cliente(rs.getString("nombre_cliente"));
                 reserva.setApellido_cliente(rs.getString("apellido_cliente"));
-                reserva.setTurno_reserva(rs.getDate("turno_reserva"));
+                reserva.setTurno_reserva(rs.getTimestamp("turno_reserva"));
                 reserva.setEstado(rs.getBoolean("estado"));
                 reserva.setMesa(buscarMesa(rs.getInt("id_mesa")));
+                reserva.setCant_comensales(rs.getInt("cant_comensales"));
             }
             ps.close();
         }
@@ -120,15 +123,16 @@ public class ReservaData {
     
     public void actualizarReserva(Reserva reserva){
         try{
-            String sql = ("UPDATE reserva SET nombre_cliente=?,apellido_cliente=?,turno_reserva=?,estado=?,id_mesa=? WHERE id=?");
+            String sql = ("UPDATE reserva SET nombre_cliente=?,apellido_cliente=?,turno_reserva=?,estado=?,id_mesa=?,cant_comensales=? WHERE id=?");
             
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, reserva.getNombre_cliente());
             ps.setString(2, reserva.getApellido_cliente());
-            ps.setDate(3, reserva.getTurno_reserva());
+            ps.setTimestamp(3, reserva.getTurno_reserva());
             ps.setBoolean(4, reserva.isEstado());
             ps.setInt(5, reserva.getMesa().getId());
-            ps.setInt(6, reserva.getId());
+            ps.setInt(6, reserva.getCant_comensales());
+            ps.setInt(7, reserva.getId());
             
             ps.executeUpdate();
             

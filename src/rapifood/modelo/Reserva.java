@@ -5,7 +5,7 @@
  */
 package rapifood.modelo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -15,16 +15,18 @@ public class Reserva {
     private int id;
     private String nombre_cliente;
     private String apellido_cliente;
-    private Date turno_reserva;
+    private Timestamp turno_reserva;
     private boolean estado;
     private Mesa mesa;
+    private int cant_comensales;
 
-    public Reserva(String nombre_cliente, String apellido_cliente, Date turno_reserva, boolean estado, Mesa mesa) {
+    public Reserva(String nombre_cliente, String apellido_cliente, Timestamp turno_reserva, boolean estado, Mesa mesa,int cant_comensales) {
         this.nombre_cliente = nombre_cliente;
         this.apellido_cliente = apellido_cliente;
         this.turno_reserva = turno_reserva;
         this.estado = estado;
         this.mesa = mesa;
+        this.cant_comensales = cant_comensales;
     }
 
     public Reserva() {}
@@ -41,7 +43,7 @@ public class Reserva {
         return apellido_cliente;
     }
 
-    public Date getTurno_reserva() {
+    public Timestamp getTurno_reserva() {
         return turno_reserva;
     }
 
@@ -65,7 +67,7 @@ public class Reserva {
         this.apellido_cliente = apellido_cliente;
     }
 
-    public void setTurno_reserva(Date turno_reserva) {
+    public void setTurno_reserva(Timestamp turno_reserva) {
         this.turno_reserva = turno_reserva;
     }
 
@@ -76,4 +78,12 @@ public class Reserva {
     public void setMesa(Mesa mesa) {
         this.mesa = mesa;
     } 
+
+    public int getCant_comensales() {
+        return cant_comensales;
+    }
+
+    public void setCant_comensales(int cant_comensales) {
+        this.cant_comensales = cant_comensales;
+    }
 }

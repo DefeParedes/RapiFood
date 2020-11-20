@@ -42,7 +42,7 @@ private final Connection con;
         
         try{     
             //CONSULTA A REALIZAR
-            String sql = "INSERT INTO pedido(id_mesa, id_mesero, estado, monto) VALUES (?,?,?,?);";
+            String sql = "INSERT INTO pedido(id_mesa, id_mesero, estado, monto,fechaPedido) VALUES (?,?,?,?,?);";
                 
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);    
             //PREPARANDO LOS ARGUMENTOS A ENVIAR.
@@ -51,6 +51,7 @@ private final Connection con;
             ps.setInt(2, pedido.getMesero().getId());
             ps.setBoolean(3, pedido.isEstado());
             ps.setDouble(4, pedido.getMonto());
+            ps.setDate(5, pedido.getFechaPedido());
             
             //CONSULTA ENVIADA.
             ps.executeUpdate();
@@ -92,6 +93,7 @@ private final Connection con;
                     pedido.setMesero(buscarMesero(resultSet.getInt("id_mesero")));
                     pedido.setMonto(resultSet.getDouble("monto"));
                     pedido.setEstado(resultSet.getBoolean("estado"));
+                    pedido.setFechaPedido(resultSet.getDate("fechaPedido"));
                     pedidos.add(pedido);
                 }
             }
@@ -133,14 +135,15 @@ private final Connection con;
     
     public void actualizarPedido(Pedido pedido){
         try{
-            String sql = ("UPDATE pedido SET id_mesa=?,id_mesero=?,monto=?,estado=? WHERE id=?");
+            String sql = ("UPDATE pedido SET id_mesa=?,id_mesero=?,monto=?,estado=?,fechaPedido=? WHERE id=?");
             
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, pedido.getMesa().getId());
             ps.setInt(2, pedido.getMesero().getId());
             ps.setDouble(3, pedido.getMonto());
             ps.setBoolean(4, pedido.isEstado());
-            ps.setInt(5, pedido.getId());
+            ps.setDate(5, pedido.getFechaPedido());
+            ps.setInt(6, pedido.getId());
             
             ps.executeUpdate();
             
@@ -166,6 +169,7 @@ private final Connection con;
                 pedido.setMesero(buscarMesero(rs.getInt("id_mesero")));
                 pedido.setMonto(rs.getDouble("monto"));
                 pedido.setEstado(rs.getBoolean("estado"));
+                pedido.setFechaPedido(rs.getDate("fechaPedido"));
             }
             ps.close();
         }

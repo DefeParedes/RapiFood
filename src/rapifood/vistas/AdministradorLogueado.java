@@ -5,6 +5,8 @@
  */
 package rapifood.vistas;
 
+import rapifood.pruebas.PruebaCancelarPedido;
+
 /**
  *
  * @author Lucas
@@ -29,11 +31,19 @@ public class AdministradorLogueado extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        jbAgregarProducto = new javax.swing.JButton();
+        jbAgregarMesero = new javax.swing.JButton();
+        jbRealizarPedido = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        btnAdmMesas = new javax.swing.JButton();
+        jbAgregarReserva = new javax.swing.JButton();
+        jbBorrarReserva = new javax.swing.JButton();
+        jbBorrarMesero = new javax.swing.JButton();
+        jbBorrarProducto = new javax.swing.JButton();
+        jbCancelarPedido = new javax.swing.JButton();
+        jbAgregarQuitar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -42,41 +52,51 @@ public class AdministradorLogueado extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RSC/ADM/icons8_pizza_64.png"))); // NOI18N
-        jButton3.setText("Adm.Productos");
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jButton3.setIconTextGap(10);
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+        jbAgregarProducto.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jbAgregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RSC/ADM/icons8_pizza_64.png"))); // NOI18N
+        jbAgregarProducto.setText("Agregar producto");
+        jbAgregarProducto.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jbAgregarProducto.setIconTextGap(10);
+        jbAgregarProducto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnAdmProductos(evt);
             }
         });
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jbAgregarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jbAgregarProductoActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RSC/icons8_food_service_64.png"))); // NOI18N
-        jButton4.setText("Adm.Meseros");
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jButton4.setIconTextGap(10);
-        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+        jbAgregarMesero.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jbAgregarMesero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RSC/icons8_food_service_64.png"))); // NOI18N
+        jbAgregarMesero.setText("Agregar mesero");
+        jbAgregarMesero.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jbAgregarMesero.setIconTextGap(10);
+        jbAgregarMesero.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnAdmMeseros(evt);
             }
         });
+        jbAgregarMesero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAgregarMeseroActionPerformed(evt);
+            }
+        });
 
-        jButton5.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RSC/ADM/icons8_cash_64.png"))); // NOI18N
-        jButton5.setText("Pedidos");
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jButton5.setIconTextGap(10);
-        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+        jbRealizarPedido.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jbRealizarPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RSC/ADM/icons8_cash_64.png"))); // NOI18N
+        jbRealizarPedido.setText("Realizar pedido");
+        jbRealizarPedido.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jbRealizarPedido.setIconTextGap(10);
+        jbRealizarPedido.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnAdmPedidos(evt);
+            }
+        });
+        jbRealizarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRealizarPedidoActionPerformed(evt);
             }
         });
 
@@ -91,19 +111,75 @@ public class AdministradorLogueado extends javax.swing.JFrame {
             }
         });
 
-        btnAdmMesas.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        btnAdmMesas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RSC/ADM/icons8_restaurant_table_64.png"))); // NOI18N
-        btnAdmMesas.setText("Adm. Mesas");
-        btnAdmMesas.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnAdmMesas.setIconTextGap(10);
-        btnAdmMesas.addMouseListener(new java.awt.event.MouseAdapter() {
+        jbAgregarReserva.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jbAgregarReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RSC/ADM/icons8_restaurant_table_64.png"))); // NOI18N
+        jbAgregarReserva.setText("Realizar reserva");
+        jbAgregarReserva.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jbAgregarReserva.setIconTextGap(10);
+        jbAgregarReserva.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAdmMesas(evt);
+                jbAgregarReserva(evt);
             }
         });
-        btnAdmMesas.addActionListener(new java.awt.event.ActionListener() {
+        jbAgregarReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdmMesasActionPerformed(evt);
+                jbAgregarReservaActionPerformed(evt);
+            }
+        });
+
+        jbBorrarReserva.setText("Borrar reserva");
+        jbBorrarReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBorrarReservaActionPerformed(evt);
+            }
+        });
+
+        jbBorrarMesero.setText("Borrar mesero");
+        jbBorrarMesero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBorrarMeseroActionPerformed(evt);
+            }
+        });
+
+        jbBorrarProducto.setText("Borrar producto");
+        jbBorrarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBorrarProductoActionPerformed(evt);
+            }
+        });
+
+        jbCancelarPedido.setText("Cancelar pedido");
+        jbCancelarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarPedidoActionPerformed(evt);
+            }
+        });
+
+        jbAgregarQuitar.setText("Agregar o quitar mesa");
+        jbAgregarQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAgregarQuitarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Pedidos atendidos por cada mesero");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Pedidos realizados y monto consumido por mesa");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Reservas por fecha");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -114,26 +190,61 @@ public class AdministradorLogueado extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                    .addComponent(btnAdmMesas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jbAgregarProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jbAgregarReserva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jbAgregarMesero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jbRealizarPedido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jbBorrarReserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jbBorrarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE))
+                                    .addComponent(jbBorrarMesero, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbCancelarPedido, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jbAgregarQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(200, 200, 200))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAdmMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                .addComponent(jButton6)
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbAgregarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBorrarReserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBorrarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbAgregarMesero, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBorrarMesero, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbRealizarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbCancelarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jbAgregarQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -141,38 +252,44 @@ public class AdministradorLogueado extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAdmMesas(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdmMesas
+    private void jbAgregarReserva(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAgregarReserva
+        Calendario pruebaCalendar = new Calendario();
         this.setVisible(false);
-        new AdmMesas().setVisible(true);
-    }//GEN-LAST:event_btnAdmMesas
+        new SeleccionarMesa().setVisible(false);
+        pruebaCalendar.setIsAgregar(true);
+        pruebaCalendar.inicializar();
+        pruebaCalendar.setVisible(true);
+    }//GEN-LAST:event_jbAgregarReserva
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jbAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarProductoActionPerformed
+        new AgregarProducto().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jbAgregarProductoActionPerformed
 
     private void BtnAdmProductos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAdmProductos
-        new AdmProductos().setVisible(true);
-        this.setVisible(false);
+
     }//GEN-LAST:event_BtnAdmProductos
 
     private void BtnAdmMeseros(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAdmMeseros
-        new AdmMeseros().setVisible(true);
-        this.setVisible(false);
+
     }//GEN-LAST:event_BtnAdmMeseros
 
     private void BtnAdmPedidos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAdmPedidos
-        new AdmPedidos().setVisible(true);
-        this.setVisible(false);
+        
     }//GEN-LAST:event_BtnAdmPedidos
 
     private void BtnVolver(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnVolver
@@ -180,9 +297,63 @@ public class AdministradorLogueado extends javax.swing.JFrame {
        new VAdminLogin().setVisible(true);
     }//GEN-LAST:event_BtnVolver
 
-    private void btnAdmMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdmMesasActionPerformed
+    private void jbAgregarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarReservaActionPerformed
 
-    }//GEN-LAST:event_btnAdmMesasActionPerformed
+    }//GEN-LAST:event_jbAgregarReservaActionPerformed
+
+    private void jbBorrarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarReservaActionPerformed
+        Calendario pruebaCalendar = new Calendario();
+        this.setVisible(false);
+        new SeleccionarMesa().setVisible(false);
+        pruebaCalendar.setIsAgregar(false);
+        pruebaCalendar.inicializar();
+        pruebaCalendar.setVisible(true);
+    }//GEN-LAST:event_jbBorrarReservaActionPerformed
+
+    private void jbAgregarMeseroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarMeseroActionPerformed
+        this.setVisible(false);
+        new AgregarMesero().setVisible(true);
+    }//GEN-LAST:event_jbAgregarMeseroActionPerformed
+
+    private void jbBorrarMeseroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarMeseroActionPerformed
+        this.setVisible(false);
+        new BorrarMesero().setVisible(true);
+    }//GEN-LAST:event_jbBorrarMeseroActionPerformed
+
+    private void jbBorrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarProductoActionPerformed
+        this.setVisible(false);
+        new BorrarProducto().setVisible(true);
+    }//GEN-LAST:event_jbBorrarProductoActionPerformed
+
+    private void jbRealizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRealizarPedidoActionPerformed
+        this.setVisible(false);
+        new AgregarPedido().setVisible(true);
+    }//GEN-LAST:event_jbRealizarPedidoActionPerformed
+
+    private void jbCancelarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarPedidoActionPerformed
+        this.setVisible(false);
+        new PruebaCancelarPedido().setVisible(true);
+    }//GEN-LAST:event_jbCancelarPedidoActionPerformed
+
+    private void jbAgregarQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarQuitarActionPerformed
+        this.setVisible(false);
+        new AgregarBorrarMesa().setVisible(true);
+    }//GEN-LAST:event_jbAgregarQuitarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        new PedidosAtendidos().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.setVisible(false);
+        new MontosXMesa().setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.setVisible(false);
+        new ReservaXFecha().setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,11 +391,19 @@ public class AdministradorLogueado extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdmMesas;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton jbAgregarMesero;
+    private javax.swing.JButton jbAgregarProducto;
+    private javax.swing.JButton jbAgregarQuitar;
+    private javax.swing.JButton jbAgregarReserva;
+    private javax.swing.JButton jbBorrarMesero;
+    private javax.swing.JButton jbBorrarProducto;
+    private javax.swing.JButton jbBorrarReserva;
+    private javax.swing.JButton jbCancelarPedido;
+    private javax.swing.JButton jbRealizarPedido;
     // End of variables declaration//GEN-END:variables
 }

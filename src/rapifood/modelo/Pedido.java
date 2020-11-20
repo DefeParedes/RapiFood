@@ -5,7 +5,8 @@
  */
 package rapifood.modelo;
 
-import rapifood.modelo.Mesa;
+import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -18,12 +19,14 @@ public class Pedido {
     private Mesero mesero;
     private double monto;
     private boolean estado;
+    private Date fechaPedido;
 
-    public Pedido(Mesa mesa, Mesero mesero, double monto, boolean estado) {
+    public Pedido(Mesa mesa, Mesero mesero, double monto, boolean estado,Date fechaPedido) {
         this.mesa = mesa;
         this.mesero = mesero;
         this.monto = monto;
         this.estado = estado;
+        this.fechaPedido = fechaPedido;
     }
 
     public Pedido(){}
@@ -66,5 +69,13 @@ public class Pedido {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public void setFechaPedido(Date fechaPedido) {
+        this.fechaPedido = fechaPedido;
+    }
+
+    public Date getFechaPedido() {
+        return fechaPedido;
     }
 }

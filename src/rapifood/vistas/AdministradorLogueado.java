@@ -5,8 +5,6 @@
  */
 package rapifood.vistas;
 
-import rapifood.pruebas.PruebaCancelarPedido;
-
 /**
  *
  * @author Lucas
@@ -332,7 +330,7 @@ public class AdministradorLogueado extends javax.swing.JFrame {
 
     private void jbCancelarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarPedidoActionPerformed
         this.setVisible(false);
-        new PruebaCancelarPedido().setVisible(true);
+        new BorrarPedido().setVisible(true);
     }//GEN-LAST:event_jbCancelarPedidoActionPerformed
 
     private void jbAgregarQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarQuitarActionPerformed

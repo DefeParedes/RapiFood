@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
-import rapifood.pruebas.PruebaMesa;
 
 /**
  *

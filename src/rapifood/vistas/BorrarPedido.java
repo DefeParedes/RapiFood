@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rapifood.pruebas;
+package rapifood.vistas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import rapifood.vistas.AdministradorLogueado;
  *
  * @author Fedep
  */
-public class PruebaCancelarPedido extends javax.swing.JFrame {
+public class BorrarPedido extends javax.swing.JFrame {
     
     private Conexion con;
     private PedidoData pedidoData;
@@ -36,7 +36,7 @@ public class PruebaCancelarPedido extends javax.swing.JFrame {
     /**
      * Creates new form PruebaCancelarPedido
      */
-    public PruebaCancelarPedido() {
+    public BorrarPedido() {
         initComponents();
         con = new Conexion();
         pedidoData = new PedidoData(con);
@@ -186,7 +186,7 @@ public class PruebaCancelarPedido extends javax.swing.JFrame {
                 productos.add(detalle.getProducto());
             }
         }
-        int cont=0;
+        int cont=1;
         for(Producto producto : productos){
             modeloProductos.addRow(new Object[]{cont,producto.getNombre(),producto.getPrecio()});
             cont++;
@@ -215,20 +215,21 @@ public class PruebaCancelarPedido extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PruebaCancelarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BorrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PruebaCancelarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BorrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PruebaCancelarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BorrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PruebaCancelarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BorrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PruebaCancelarPedido().setVisible(true);
+                new BorrarPedido().setVisible(true);
             }
         });
     }

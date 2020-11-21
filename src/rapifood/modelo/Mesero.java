@@ -23,6 +23,16 @@ public class Mesero {
         this.estado = estado;
     }
 
+    public Mesero(int id, String apellido, String nombre, String cuit, boolean estado) {
+        this.id = id;
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.cuit = cuit;
+        this.estado = estado;
+    }
+    
+    
+
     public Mesero() {
     }
 

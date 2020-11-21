@@ -19,48 +19,105 @@ import rapifood.modelo.Reserva;
 public class SeleccionarMesa extends javax.swing.JFrame {
     
     private Calendar fechaElegida;
-    private final ReservaData reservaData;
-    private final Conexion con;
-    private final MesaData mesaData;
+    private ReservaData reservaData;
+    private Conexion con;
+    private MesaData mesaData;
+    private boolean isModificar;
+    private int idAModificar;
     
     public void setFechaElegida(Calendar fechaElegida){
         this.fechaElegida = fechaElegida;
     }
+
+    public void setIsModificar(boolean isModificar) {
+        this.isModificar = isModificar;
+    }
+
+    public void setIdAModificar(int idAModificar) {
+        this.idAModificar = idAModificar;
+    }
     
     public SeleccionarMesa() {
         initComponents();
+        inicializarComponentes();
+    }
+    
+    private void inicializarComponentes(){
         con = new Conexion();
         reservaData = new ReservaData(con);
-        mesaData = new MesaData(con); 
+        mesaData = new MesaData(con);
+        isModificar = false;
     }
     
     public void inicializar(){
         JButton[] arrBotones = {jbMesa1,jbMesa2,jbMesa3,jbMesa4,jbMesa5,jbMesa6,jbMesa7,jbMesa8,jbMesa9,jbMesa10,jbMesa11,jbMesa12,jbMesa13,jbMesa14,jbMesa15};
-        List<Reserva> reservas = reservaData.obtenerReservas();
-        List<Mesa> mesasDisponibles = mesaData.obtenerMesas();
-        for(Mesa mesa : mesasDisponibles){
-            if(!mesa.isEstado()){
-                arrBotones[mesa.getId()-1].setEnabled(false);
-                arrBotones[mesa.getId()-1].setIcon(new ImageIcon(getClass().getResource("../../RSC/MesasIconos/MesaS"+(mesa.getId())+".png")));
+        if(isModificar){
+            for(Mesa mesa : mesaData.obtenerMesas()){
+                if(!mesa.isEstado()){
+                    arrBotones[mesa.getId()-1].setEnabled(false);
+                    arrBotones[mesa.getId()-1].setIcon(new ImageIcon(getClass().getResource("../../RSC/MesasIconos/MesaS"+(mesa.getId())+".png")));
+                }
+            }
+            Calendar fechaId = Calendar.getInstance();
+            fechaId.setTime(reservaData.buscarReserva(idAModificar).getTurno_reserva());
+            for(Reserva reserva : reservaData.obtenerReservas()){
+                Calendar fechaRecibida = Calendar.getInstance();
+                fechaRecibida.setTime(reserva.getTurno_reserva());
+                if(fechaId.getTimeInMillis() == fechaElegida.getTimeInMillis()){
+                    if(reservaData.buscarReserva(idAModificar).getMesa().getId() == reserva.getMesa().getId()){
+                        arrBotones[reserva.getMesa().getId()-1].setEnabled(true);
+                        arrBotones[reserva.getMesa().getId()-1].setIcon(new ImageIcon(getClass().getResource("../../RSC/MesasIconos/MesaN"+(reserva.getMesa().getId())+".png")));
+                    }
+                    else{
+                        arrBotones[reserva.getMesa().getId()-1].setEnabled(false);
+                        arrBotones[reserva.getMesa().getId()-1].setIcon(new ImageIcon(getClass().getResource("../../RSC/MesasIconos/MesaS"+(reserva.getMesa().getId())+".png")));
+                    }
+                }
+                else{
+                    if(fechaRecibida.getTimeInMillis() == fechaElegida.getTimeInMillis()){
+                        arrBotones[reserva.getMesa().getId()-1].setEnabled(false);
+                        arrBotones[reserva.getMesa().getId()-1].setIcon(new ImageIcon(getClass().getResource("../../RSC/MesasIconos/MesaS"+(reserva.getMesa().getId())+".png")));
+                    } 
+                }
             }
         }
-        for(Reserva reserva : reservas){
-            Calendar fechaRecibida = Calendar.getInstance();
-            fechaRecibida.setTime(reserva.getTurno_reserva());
-            if(fechaRecibida.getTimeInMillis() == fechaElegida.getTimeInMillis()){
-                arrBotones[reserva.getMesa().getId()-1].setEnabled(false);
-                arrBotones[reserva.getMesa().getId()-1].setIcon(new ImageIcon(getClass().getResource("../../RSC/MesasIconos/MesaS"+(reserva.getMesa().getId())+".png")));
+        else{
+            for(Mesa mesa : mesaData.obtenerMesas()){
+                if(!mesa.isEstado()){
+                    arrBotones[mesa.getId()-1].setEnabled(false);
+                    arrBotones[mesa.getId()-1].setIcon(new ImageIcon(getClass().getResource("../../RSC/MesasIconos/MesaS"+(mesa.getId())+".png")));
+                }
             }
+            for(Reserva reserva : reservaData.obtenerReservas()){
+                Calendar fechaRecibida = Calendar.getInstance();
+                fechaRecibida.setTime(reserva.getTurno_reserva());
+                if(fechaRecibida.getTimeInMillis() == fechaElegida.getTimeInMillis()){
+                    arrBotones[reserva.getMesa().getId()-1].setEnabled(false);
+                    arrBotones[reserva.getMesa().getId()-1].setIcon(new ImageIcon(getClass().getResource("../../RSC/MesasIconos/MesaS"+(reserva.getMesa().getId())+".png")));
+                }
+            }  
         }
     }
     
     public void cargarReserva(JButton boton){
-        IngresoComensal pruebaIngreso = new IngresoComensal();
-        pruebaIngreso.setFechaElegida(fechaElegida);
-        pruebaIngreso.setId_mesa(Integer.parseInt(boton.getName()));
-        pruebaIngreso.inicializar();
-        this.setVisible(false);
-        pruebaIngreso.setVisible(true);
+        if(isModificar){
+            IngresoComensal ingreso = new IngresoComensal();
+            ingreso.setFechaElegida(fechaElegida);
+            ingreso.setId_mesa(Integer.parseInt(boton.getName()));
+            ingreso.inicializar();
+            ingreso.setIsModificar(true);
+            ingreso.setIdAModificar(idAModificar);
+            this.setVisible(false);
+            ingreso.setVisible(true);
+        }
+        else{
+            IngresoComensal ingreso = new IngresoComensal();
+            ingreso.setFechaElegida(fechaElegida);
+            ingreso.setId_mesa(Integer.parseInt(boton.getName()));
+            ingreso.inicializar();
+            this.setVisible(false);
+            ingreso.setVisible(true); 
+        }
     }
     
     

@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import rapifood.modelo.Conexion;
 import rapifood.modelo.Mesero;
 import rapifood.modelo.MeseroData;
-import rapifood.vistas.AdministradorLogueado;
 
 /**
  *
@@ -19,12 +18,26 @@ public class AgregarMesero extends javax.swing.JFrame {
     
     private Conexion con;
     private MeseroData meseroData;
+    private int idAModificar;
+    private boolean isModificar;
     
     /**
      * Creates new form PruebaMeseros
      */
     public AgregarMesero() {
         initComponents();
+        inicializarComponentes();
+    }
+    
+    public void setIdAModificar(int idAModificar) {
+        this.idAModificar = idAModificar;
+    }
+
+    public void setIsModificar(boolean isModificar) {
+        this.isModificar = isModificar;
+    }
+    
+    private void inicializarComponentes(){
         con = new Conexion();
         meseroData = new MeseroData(con);
     }
@@ -67,10 +80,52 @@ public class AgregarMesero extends javax.swing.JFrame {
         return retorno; 
     }
     
-    private boolean nombreYaIngresado(){
+    private boolean meseroYaIngresado(){
         boolean retorno=false;
         for(Mesero mesero : meseroData.obtenerMeseros()){
             if(mesero.getNombre().equals(tfNombre.getText()) && mesero.getApellido().equals(tfApellido.getText())){
+                retorno=true;
+            }
+        }
+        return retorno;
+    }
+    
+    private boolean cuitNegativo(){
+        boolean retorno=false;
+        if(Double.parseDouble(tfCuit.getText())<0){
+            retorno=true;
+        }
+        return retorno;
+    }
+    
+    private void volverAlMenu(){
+        this.setVisible(false);
+        new AdministradorLogueado().setVisible(true);
+    }
+    
+    private boolean controlCamposCorrectos(){
+        boolean controlNombre=false,controlCuit=false,retorno=false;
+        if(controlCampos()){
+            if(meseroYaIngresado()){
+                controlNombre = true;
+            }
+            else if(cuitNegativo()){
+                controlCuit = true;
+            }
+            if(controlNombre && controlCuit){
+                JOptionPane.showMessageDialog(this, "El nombre ingresado ya se encuentra registrado y el cuit es negativo.");
+                tfNombre.setText("");
+                tfCuit.setText("");
+            }
+            else if(controlNombre && !controlCuit){
+                JOptionPane.showMessageDialog(this, "Ya hay ingresado un mesero con dicho nombre.");
+                tfNombre.setText("");
+            }
+            else if(!controlNombre && controlCuit){
+                JOptionPane.showMessageDialog(this, "Ingrese un cuit coherente.");
+                tfCuit.setText("");
+            }
+            else{
                 retorno=true;
             }
         }
@@ -202,31 +257,36 @@ public class AgregarMesero extends javax.swing.JFrame {
     }//GEN-LAST:event_tfCuitKeyTyped
 
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
-        if(controlCampos()){
-            if(nombreYaIngresado()){
-                JOptionPane.showMessageDialog(this, "Ya se ha ingresado un empleado con ese nombre y apellido");
-                tfNombre.setText("");
-                tfApellido.setText("");
-                }
-            else{
-                boolean control=true;
-                String nombre=tfNombre.getText();
-                String apellido=tfApellido.getText();
-                String cuit=tfCuit.getText();
-                for(Mesero mesero : meseroData.obtenerMeseros()){
-                    if(mesero.getCuit().equals(tfCuit.getText())){
-                        JOptionPane.showMessageDialog(this, "Ya se encuentra un mesero ingresado con ese cuit.");
+        if(isModificar){
+            if(meseroData.buscarMesero(idAModificar).getNombre().equals(tfNombre.getText())){
+                if(controlCampos()){
+                    if(cuitNegativo()){
+                        JOptionPane.showMessageDialog(this, "Ingrese un cuit coherente.");
                         tfCuit.setText("");
-                        control=false;
+                    }
+                    else{
+                        Mesero mesero = new Mesero(idAModificar,tfApellido.getText(),tfNombre.getText(),tfCuit.getText(),true);
+                        meseroData.actualizarMesero(mesero);
+                        JOptionPane.showMessageDialog(this, "Mesero modificado correctamente.");
+                        volverAlMenu(); 
                     }
                 }
-                if(control){
-                    Mesero mesero = new Mesero(apellido,nombre,cuit,true);
-                    meseroData.guardarMesero(mesero);
-                    JOptionPane.showMessageDialog(this, "Mesero ingresado correctamente.");
-                    new AdministradorLogueado().setVisible(true);
-                    this.setVisible(false);
+            }
+            else{
+                if(controlCamposCorrectos()){
+                    Mesero mesero = new Mesero(idAModificar,tfApellido.getText(),tfNombre.getText(),tfCuit.getText(),true);
+                    meseroData.actualizarMesero(mesero);
+                    JOptionPane.showMessageDialog(this, "Mesero modificado correctamente.");
+                    volverAlMenu();
+                    }
                 }
+            }
+        else{
+            if(controlCamposCorrectos()){
+                Mesero mesero = new Mesero(tfApellido.getText(),tfNombre.getText(),tfCuit.getText(),true);
+                meseroData.guardarMesero(mesero);
+                JOptionPane.showMessageDialog(this, "Mesero agregado correctamente.");
+                volverAlMenu(); 
             }
         }
     }//GEN-LAST:event_jbAgregarActionPerformed
@@ -250,8 +310,7 @@ public class AgregarMesero extends javax.swing.JFrame {
     }//GEN-LAST:event_tfApellidoKeyTyped
 
     private void jbBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBackActionPerformed
-        this.setVisible(false);
-        new AdministradorLogueado().setVisible(true);
+        volverAlMenu();
     }//GEN-LAST:event_jbBackActionPerformed
 
     /**

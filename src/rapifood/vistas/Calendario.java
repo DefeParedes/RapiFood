@@ -23,9 +23,19 @@ public class Calendario extends javax.swing.JFrame {
     private boolean isAgregar;
     private Conexion con;
     private MesaData mesaData;
+    private int idAModificar;
+    private boolean isModificar;
     
     public void setIsAgregar(boolean isAgregar){
         this.isAgregar = isAgregar;
+    }
+    
+    public void setIsModificar(boolean isModificar){
+        this.isModificar=isModificar;
+    }
+    
+    public void setIdAModificar(int idAModificar){
+        this.idAModificar=idAModificar;
     }
     
     /**
@@ -34,17 +44,23 @@ public class Calendario extends javax.swing.JFrame {
     
     public Calendario() {
         initComponents();
-        con = new Conexion();
-        mesaData = new MesaData(con);
-        
+        inicializarComponentes();
+
         //VARIABLE DEL TIPO DATE CON LA FECHA ACTUAL + 1 DIA. DADA LA REALIDAD, NOSOTROS OPTAMOS POR SIEMPRE RESERVAR A PARTIR DEL SIGUIENTE DIA AL ACTUAL.
         Date date = Date.valueOf(LocalDate.now().plusDays(1));
         dcFechaReserva.setMinSelectableDate(date);
         bgOpciones.setSelected(rbFecha.getModel(), true);
     }
     
+    private void inicializarComponentes(){
+        con = new Conexion();
+        mesaData = new MesaData(con);
+        isAgregar=false;
+        isModificar=false;
+    }
+    
     public void inicializar(){
-        if(isAgregar){
+        if(isAgregar || isModificar){
             rbFecha.setVisible(false);
             rbMesa.setVisible(false);
             cbMesas.setVisible(false);
@@ -168,6 +184,10 @@ public class Calendario extends javax.swing.JFrame {
     private void jbAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAceptarActionPerformed
         Calendar fechaElegida = dcFechaReserva.getCalendar();
         if(isAgregar){
+            fechaElegida.set(Calendar.HOUR, 0);
+            fechaElegida.set(Calendar.MINUTE, 0);
+            fechaElegida.set(Calendar.SECOND, 0);
+            fechaElegida.set(Calendar.MILLISECOND, 0);
             //SI HAY FECHA INGRESADA.
             if(dcFechaReserva.getDate() == null){
                 JOptionPane.showMessageDialog(this, "Ingresar una fecha.");
@@ -179,6 +199,25 @@ public class Calendario extends javax.swing.JFrame {
             this.setVisible(false);
             pruebaHorarios.setVisible(true); 
             }
+        }
+        else if(isModificar){
+            fechaElegida.set(Calendar.HOUR, 0);
+            fechaElegida.set(Calendar.MINUTE, 0);
+            fechaElegida.set(Calendar.SECOND, 0);
+            fechaElegida.set(Calendar.MILLISECOND, 0);
+            //SI HAY FECHA INGRESADA.
+            if(dcFechaReserva.getDate() == null){
+                JOptionPane.showMessageDialog(this, "Ingresar una fecha.");
+            }
+            else{
+                //SE ENVIA LA FECHA ELEGIDA AL PANEL DE LOS HORARIOS.
+                HorariosDisponibles horarios = new HorariosDisponibles();
+                horarios.setFechaElegida(fechaElegida);
+                horarios.setIsModificar(true);
+                horarios.setIdAModificar(idAModificar);
+                this.setVisible(false);
+                horarios.setVisible(true); 
+            } 
         }
         else{
             BorrarReserva pruebaBorradoReservas = new BorrarReserva();
@@ -201,7 +240,6 @@ public class Calendario extends javax.swing.JFrame {
                 pruebaBorradoReservas.setVisible(true);
                 pruebaBorradoReservas.inicializar(); 
             }
-            
         }
     }//GEN-LAST:event_jbAceptarActionPerformed
 

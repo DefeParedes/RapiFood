@@ -29,6 +29,18 @@ public class Reserva {
         this.cant_comensales = cant_comensales;
     }
 
+    public Reserva(int id, String nombre_cliente, String apellido_cliente, Timestamp turno_reserva, boolean estado, Mesa mesa, int cant_comensales) {
+        this.id = id;
+        this.nombre_cliente = nombre_cliente;
+        this.apellido_cliente = apellido_cliente;
+        this.turno_reserva = turno_reserva;
+        this.estado = estado;
+        this.mesa = mesa;
+        this.cant_comensales = cant_comensales;
+    }
+    
+    
+
     public Reserva() {}
 
     public int getId() {

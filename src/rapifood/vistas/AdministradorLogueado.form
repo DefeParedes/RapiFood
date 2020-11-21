@@ -27,7 +27,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,20 +63,29 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jButton6" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="jbAgregarProducto" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jbAgregarReserva" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jbAgregarMesero" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jbRealizarPedido" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace pref="62" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jbBorrarReserva" max="32767" attributes="0"/>
-                                          <Component id="jbBorrarProducto" pref="354" max="32767" attributes="0"/>
+                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="jbAgregarMesero" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jbRealizarPedido" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jbAgregarReserva" alignment="0" min="-2" pref="366" max="-2" attributes="0"/>
+                                          <Component id="jbAgregarProducto" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="jbBorrarMesero" alignment="1" min="-2" pref="354" max="-2" attributes="0"/>
-                                      <Component id="jbCancelarPedido" alignment="1" min="-2" pref="354" max="-2" attributes="0"/>
+                                      <Component id="jbAgregarQuitar" alignment="0" min="-2" pref="381" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jbModificarReserva" max="32767" attributes="0"/>
+                                      <Component id="jbModificarProducto" max="32767" attributes="0"/>
+                                      <Component id="jbModificarMesero" pref="77" max="32767" attributes="0"/>
+                                      <Component id="jbModificarPedido" max="32767" attributes="0"/>
+                                      <Component id="jbModificarMesa" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="32" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jbBorrarMesero" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="jbBorrarReserva" max="32767" attributes="0"/>
+                                      <Component id="jbBorrarProducto" max="32767" attributes="0"/>
+                                      <Component id="jbCancelarPedido" pref="281" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -85,10 +94,9 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jbAgregarQuitar" alignment="1" min="-2" pref="381" max="-2" attributes="0"/>
-                              <Component id="jButton1" alignment="1" min="-2" pref="381" max="-2" attributes="0"/>
-                              <Component id="jButton2" alignment="1" min="-2" pref="381" max="-2" attributes="0"/>
-                              <Component id="jButton3" alignment="1" min="-2" pref="381" max="-2" attributes="0"/>
+                              <Component id="jbVentasXMesero" alignment="1" min="-2" pref="381" max="-2" attributes="0"/>
+                              <Component id="jbPedidosXMesa" alignment="1" min="-2" pref="381" max="-2" attributes="0"/>
+                              <Component id="jbReservasXFechas" alignment="1" min="-2" pref="381" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="200" max="-2" attributes="0"/>
                       </Group>
@@ -102,31 +110,38 @@
                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jbAgregarReserva" min="-2" pref="57" max="-2" attributes="0"/>
-                      <Component id="jbBorrarReserva" max="32767" attributes="0"/>
+                      <Component id="jbModificarReserva" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jbBorrarReserva" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jbAgregarProducto" min="-2" pref="57" max="-2" attributes="0"/>
-                      <Component id="jbBorrarProducto" max="32767" attributes="0"/>
+                      <Component id="jbModificarProducto" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jbBorrarProducto" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jbAgregarMesero" min="-2" pref="65" max="-2" attributes="0"/>
-                      <Component id="jbBorrarMesero" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jbBorrarMesero" pref="65" max="32767" attributes="0"/>
+                      <Component id="jbModificarMesero" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jbAgregarMesero" alignment="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jbRealizarPedido" min="-2" pref="65" max="-2" attributes="0"/>
                       <Component id="jbCancelarPedido" max="32767" attributes="0"/>
+                      <Component id="jbModificarPedido" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jbAgregarQuitar" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jbAgregarQuitar" pref="52" max="32767" attributes="0"/>
+                      <Component id="jbModificarMesa" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="jbVentasXMesero" min="-2" pref="52" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="jbPedidosXMesa" min="-2" pref="52" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton3" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="jbReservasXFechas" min="-2" pref="52" max="-2" attributes="0"/>
                   <EmptySpace pref="18" max="32767" attributes="0"/>
                   <Component id="jButton6" min="-2" pref="82" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -259,28 +274,68 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbAgregarQuitarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="jbVentasXMesero">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pedidos atendidos por cada mesero"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbVentasXMeseroActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="jbPedidosXMesa">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pedidos realizados y monto consumido por mesa"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbPedidosXMesaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="jbReservasXFechas">
           <Properties>
             <Property name="text" type="java.lang.String" value="Reservas por fecha"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbReservasXFechasActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jbModificarReserva">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Mod"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbModificarReservaActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jbModificarProducto">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Mod"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbModificarProductoActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jbModificarMesero">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Mod"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbModificarMeseroActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jbModificarPedido">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Mod"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbModificarPedidoActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jbModificarMesa">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Mod"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbModificarMesaActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

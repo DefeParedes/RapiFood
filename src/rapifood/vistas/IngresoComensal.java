@@ -13,7 +13,6 @@ import rapifood.modelo.Mesa;
 import rapifood.modelo.MesaData;
 import rapifood.modelo.ReservaData;
 import rapifood.modelo.Reserva;
-import rapifood.vistas.AdministradorLogueado;
 
 /**
  *
@@ -22,19 +21,34 @@ import rapifood.vistas.AdministradorLogueado;
 public class IngresoComensal extends javax.swing.JFrame {
 
     private Calendar fechaElegida;
-    private final MesaData mesaData;
+    private MesaData mesaData;
     private int id_mesa;
-    private final ReservaData reservaData;
-    private final Conexion con;
+    private ReservaData reservaData;
+    private Conexion con;
+    private boolean isModificar;
+    private int idAModificar;
     
     /**
      * Creates new form PruebaIngreso
      */
     public IngresoComensal() {
         initComponents();
+        inicializarComponentes();
+    }
+    
+    private void inicializarComponentes(){
         con = new Conexion();
         reservaData = new ReservaData(con);
         mesaData = new MesaData(con);
+        isModificar=false;
+    }
+
+    public void setIsModificar(boolean isModificar) {
+        this.isModificar = isModificar;
+    }
+
+    public void setIdAModificar(int idAModificar) {
+        this.idAModificar = idAModificar;
     }
     
     public void inicializar(){
@@ -72,6 +86,11 @@ public class IngresoComensal extends javax.swing.JFrame {
             retorno=true;
         }
         return retorno;
+    }
+    
+    private void volverAlMenu(){
+        new AdministradorLogueado().setVisible(true);
+        this.setVisible(false);
     }
     
     /**
@@ -181,21 +200,31 @@ public class IngresoComensal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAceptarActionPerformed
-        if(controlCampos()){
+        if(isModificar){
+            if(controlCampos()){
             Timestamp fechaReservada = new Timestamp(fechaElegida.getTimeInMillis());
             Mesa mesa = mesaData.buscarMesa(id_mesa);
-            Reserva reserva = new Reserva(tfNombre.getText(),tfApellido.getText(),fechaReservada,true,mesa,Integer.parseInt(cbComensales.getSelectedItem().toString()));
-            reservaData.guardarReserva(reserva);
-            JOptionPane.showMessageDialog(this, "Reserva hecha correctamente.");
-            AdministradorLogueado aL = new AdministradorLogueado();
-            this.setVisible(false);
-            aL.setVisible(true);
+            Reserva reserva = new Reserva(idAModificar,tfNombre.getText(),tfApellido.getText(),fechaReservada,true,mesa,Integer.parseInt(cbComensales.getSelectedItem().toString()));
+            reservaData.actualizarReserva(reserva);
+            JOptionPane.showMessageDialog(this, "Reserva modificada correctamente.");
+            volverAlMenu();
+            }
         }
+        else{
+            if(controlCampos()){
+                Timestamp fechaReservada = new Timestamp(fechaElegida.getTimeInMillis());
+                Mesa mesa = mesaData.buscarMesa(id_mesa);
+                Reserva reserva = new Reserva(tfNombre.getText(),tfApellido.getText(),fechaReservada,true,mesa,Integer.parseInt(cbComensales.getSelectedItem().toString()));
+                reservaData.guardarReserva(reserva);
+                JOptionPane.showMessageDialog(this, "Reserva hecha correctamente.");
+                volverAlMenu();
+            } 
+        }
+
     }//GEN-LAST:event_jbAceptarActionPerformed
 
     private void jbBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBackActionPerformed
-        this.setVisible(false);
-        new AdministradorLogueado().setVisible(true);
+        volverAlMenu();
     }//GEN-LAST:event_jbBackActionPerformed
 
     private void tfNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombreKeyTyped

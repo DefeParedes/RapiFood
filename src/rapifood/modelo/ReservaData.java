@@ -150,6 +150,7 @@ public class ReservaData {
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, id);
             ps.executeUpdate();
+            ps.close();
         }
         catch(SQLException e){
             System.out.println("Error: "+e.getMessage());

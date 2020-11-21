@@ -5,86 +5,54 @@
  */
 package rapifood.vistas;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import rapifood.modelo.Conexion;
 import rapifood.modelo.Reserva;
 import rapifood.modelo.ReservaData;
+import rapifood.vistas.AdministradorLogueado;
+import rapifood.vistas.Calendario;
 
 /**
  *
  * @author Fedep
  */
-public class BorrarReserva extends javax.swing.JFrame {
+public class ModificarReserva extends javax.swing.JFrame {
     
-    private Calendar fechaElegida;
     private ReservaData reservaData;
     private Conexion con;
-    private int id_mesa;
-    private boolean isFecha;
-    DefaultTableModel modelo;
+    DefaultTableModel modeloReserva;
 
     /**
-     * Creates new form PruebaBorradoReservas
+     * Creates new form TestModificarReserva
      */
-    public BorrarReserva() {
+    public ModificarReserva() {
         initComponents();
         inicializarComponentes();
+        cargarReservas();
+    }
+    
+    private void cargarReservas(){
+        for(Reserva reserva : reservaData.obtenerReservas()){
+            modeloReserva.addRow(new Object[]{reserva.getNombre_cliente(),reserva.getApellido_cliente(),reserva.getTurno_reserva(),reserva.getMesa().getId(),reserva.getCant_comensales(),reserva.getId()});
+        }
     }
     
     private void inicializarComponentes(){
-        con = new Conexion();
+        con= new Conexion();
         reservaData = new ReservaData(con);
-        modelo = (DefaultTableModel) jtReservas.getModel();
+        modeloReserva = (DefaultTableModel) jtReservas.getModel();
     }
     
-    public void setFechaElegida(Calendar fechaElegida){
-        this.fechaElegida = fechaElegida;
-    }
-
-    public void setId_mesa(int id_mesa) {
-        this.id_mesa = id_mesa;
-    }
-
-    public void setIsFecha(boolean isFecha) {
-        this.isFecha = isFecha;
-    }
-    
-    public void inicializar(){
-        List<Reserva> reservas = reservaData.obtenerReservas();
-        if(isFecha){
-            int hora;
-            Timestamp fechaABorrar = new Timestamp(fechaElegida.getTime().getTime());
-            fechaABorrar.setHours(0);
-            fechaABorrar.setMinutes(0);
-            fechaABorrar.setSeconds(0);
-            fechaABorrar.setNanos(0);
-            for(Reserva reserva : reservas){
-                hora = reserva.getTurno_reserva().getHours();
-                reserva.getTurno_reserva().setHours(0);
-                if(fechaABorrar.getTime() == reserva.getTurno_reserva().getTime()){
-                    reserva.getTurno_reserva().setHours(hora);
-                    String nombre = reserva.getNombre_cliente();
-                    String apellido = reserva.getApellido_cliente();
-                    int mesa = reserva.getMesa().getId(),cant_comensales = reserva.getCant_comensales();
-                    modelo.addRow(new Object[]{nombre,apellido,reserva.getTurno_reserva(),mesa,cant_comensales,reserva.getId()});
-                }
-            }
+    private boolean reservaSeleccionada(){
+        boolean retorno=false;
+        if(jtReservas.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(this, "Seleccione una reserva.");
         }
-        else
-        {
-            for(Reserva reserva : reservas){
-                if(reserva.getMesa().getId() == id_mesa){
-                    String nombre = reserva.getNombre_cliente();
-                    String apellido = reserva.getApellido_cliente();
-                    int mesa = reserva.getMesa().getId(),cant_comensales = reserva.getCant_comensales();
-                    modelo.addRow(new Object[]{nombre,apellido,reserva.getTurno_reserva(),mesa,cant_comensales,reserva.getId()});
-                }
-            }
+        else{
+            retorno=true;
         }
+        return retorno;
     }
 
     /**
@@ -96,12 +64,26 @@ public class BorrarReserva extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jbBack = new javax.swing.JButton();
+        jtModificar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtReservas = new javax.swing.JTable();
-        jbBorrar = new javax.swing.JButton();
-        jbBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jbBack.setText("Regresar al menu");
+        jbBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBackActionPerformed(evt);
+            }
+        });
+
+        jtModificar.setText("Modificar");
+        jtModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtModificarActionPerformed(evt);
+            }
+        });
 
         jtReservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -121,33 +103,20 @@ public class BorrarReserva extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtReservas);
 
-        jbBorrar.setText("Borrar");
-        jbBorrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBorrarActionPerformed(evt);
-            }
-        });
-
-        jbBack.setText("Regresar al menu");
-        jbBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBackActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addComponent(jbBack)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addComponent(jtModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,28 +125,29 @@ public class BorrarReserva extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbBorrar)
+                    .addComponent(jtModificar)
                     .addComponent(jbBack))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
-        if(jtReservas.getSelectedRow()==-1){
-            JOptionPane.showMessageDialog(this, "Ingrese una reserva para borrar.");
-        }
-        else{
-            reservaData.borrarReserva(Integer.parseInt(jtReservas.getValueAt(jtReservas.getSelectedRow(), 5).toString()));
-            modelo.removeRow(jtReservas.getSelectedRow());
-        }
-    }//GEN-LAST:event_jbBorrarActionPerformed
-
     private void jbBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBackActionPerformed
         this.setVisible(false);
         new AdministradorLogueado().setVisible(true);
     }//GEN-LAST:event_jbBackActionPerformed
+
+    private void jtModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtModificarActionPerformed
+        if(reservaSeleccionada()){
+            this.setVisible(false);
+            Calendario c = new Calendario();
+            c.setVisible(true);
+            c.setIdAModificar(Integer.parseInt(jtReservas.getValueAt(jtReservas.getSelectedRow(), 5).toString()));
+            c.setIsModificar(true);
+            c.inicializar();
+        }
+    }//GEN-LAST:event_jtModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,23 +166,21 @@ public class BorrarReserva extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BorrarReserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarReserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BorrarReserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarReserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BorrarReserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarReserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BorrarReserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarReserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BorrarReserva().setVisible(true);
+                new ModificarReserva().setVisible(true);
             }
         });
     }
@@ -220,7 +188,7 @@ public class BorrarReserva extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbBack;
-    private javax.swing.JButton jbBorrar;
+    private javax.swing.JButton jtModificar;
     private javax.swing.JTable jtReservas;
     // End of variables declaration//GEN-END:variables
 }

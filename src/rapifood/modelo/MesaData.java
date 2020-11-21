@@ -143,6 +143,7 @@ public class MesaData {
             
             //REALIZANDO LA CONSULTA.
             ps.executeUpdate();
+            ps.close();
         }
         catch(SQLException e){
             System.out.println("Error: "+e.getMessage());

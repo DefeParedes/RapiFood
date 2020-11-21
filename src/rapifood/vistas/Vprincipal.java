@@ -52,6 +52,11 @@ public class Vprincipal extends javax.swing.JFrame {
         jButton3.setText("Cliente");
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jButton3.setIconTextGap(10);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RSC/icons8_food_service_64.png"))); // NOI18N
@@ -128,6 +133,11 @@ public class Vprincipal extends javax.swing.JFrame {
         this.setVisible(false);
         new VAdminLogin().setVisible(true);
     }//GEN-LAST:event_AbrirLoginAdmin
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.setVisible(false);
+        new VCliente().setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

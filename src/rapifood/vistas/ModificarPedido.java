@@ -16,33 +16,29 @@ import rapifood.modelo.DetallePedidoData;
 import rapifood.modelo.Pedido;
 import rapifood.modelo.PedidoData;
 import rapifood.modelo.Producto;
+import rapifood.vistas.AdministradorLogueado;
+import rapifood.vistas.AgregarMesero;
+import rapifood.vistas.AgregarPedido;
 
 /**
  *
  * @author Fedep
  */
-public class BorrarPedido extends javax.swing.JFrame {
+public class ModificarPedido extends javax.swing.JFrame {
     
     private Conexion con;
     private PedidoData pedidoData;
     private DetallePedidoData detallePedidoData;
-    private int idAModificar;
     DefaultTableModel modeloPedidos;
     DefaultTableModel modeloProductos;
     List<DetallePedido> detalles;
-    
-    
 
     /**
-     * Creates new form PruebaCancelarPedido
+     * Creates new form TestModificarPedido
      */
-    public BorrarPedido() {
+    public ModificarPedido() {
         initComponents();
         inicializarComponentes();
-    }
-
-    public void setIdAModificar(int idAModificar) {
-        this.idAModificar = idAModificar;
     }
     
     private void inicializarComponentes(){
@@ -57,8 +53,7 @@ public class BorrarPedido extends javax.swing.JFrame {
         }
     }
     
-    
-    private void limpiarTabla(JTable tabla){
+    public void limpiarTabla(JTable tabla){
         try {
             DefaultTableModel modelo=(DefaultTableModel) tabla.getModel();
             int filas=tabla.getRowCount();
@@ -70,6 +65,17 @@ public class BorrarPedido extends javax.swing.JFrame {
         }
     }
 
+    private boolean pedidoSeleccionado(){
+        boolean retorno=false;
+        if(jtPedidos.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(this, "Seleccione un pedido.");
+        }
+        else{
+            retorno=true;
+        }
+        return retorno;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -83,8 +89,8 @@ public class BorrarPedido extends javax.swing.JFrame {
         jtPedidos = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtProductos = new javax.swing.JTable();
-        jbBorrar = new javax.swing.JButton();
         jbBack = new javax.swing.JButton();
+        jbModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,17 +136,17 @@ public class BorrarPedido extends javax.swing.JFrame {
         jtProductos.setEnabled(false);
         jScrollPane2.setViewportView(jtProductos);
 
-        jbBorrar.setText("Borrar");
-        jbBorrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBorrarActionPerformed(evt);
-            }
-        });
-
         jbBack.setText("Regresar al menu");
         jbBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbBackActionPerformed(evt);
+            }
+        });
+
+        jbModificar.setText("Modificar");
+        jbModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbModificarActionPerformed(evt);
             }
         });
 
@@ -151,7 +157,7 @@ public class BorrarPedido extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,24 +174,14 @@ public class BorrarPedido extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbBorrar)
+                    .addComponent(jbModificar)
                     .addComponent(jbBack))
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
-        if(jtPedidos.getSelectedRow()==-1){
-            JOptionPane.showMessageDialog(this, "No ha seleccionado ningun pedido.");
-        }
-        else{
-            pedidoData.borrarPedido(Integer.parseInt(jtPedidos.getValueAt(jtPedidos.getSelectedRow(), 4).toString()));
-            modeloPedidos.removeRow(jtPedidos.getSelectedRow());
-        }
-    }//GEN-LAST:event_jbBorrarActionPerformed
-        
     private void jtPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPedidosMouseClicked
         limpiarTabla(jtProductos);
         List<Producto> productos = new ArrayList<>();
@@ -206,6 +202,16 @@ public class BorrarPedido extends javax.swing.JFrame {
         new AdministradorLogueado().setVisible(true);
     }//GEN-LAST:event_jbBackActionPerformed
 
+    private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+        if(pedidoSeleccionado()){
+            this.setVisible(false);
+            AgregarPedido aP = new AgregarPedido();
+            aP.setVisible(true);
+            aP.setIdAModificar(Integer.parseInt(jtPedidos.getValueAt(jtPedidos.getSelectedRow(), 4).toString()));
+            aP.setIsModificar(true); 
+        }
+    }//GEN-LAST:event_jbModificarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -223,13 +229,13 @@ public class BorrarPedido extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BorrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BorrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BorrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BorrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -237,7 +243,7 @@ public class BorrarPedido extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BorrarPedido().setVisible(true);
+                new ModificarPedido().setVisible(true);
             }
         });
     }
@@ -246,7 +252,7 @@ public class BorrarPedido extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jbBack;
-    private javax.swing.JButton jbBorrar;
+    private javax.swing.JButton jbModificar;
     private javax.swing.JTable jtPedidos;
     private javax.swing.JTable jtProductos;
     // End of variables declaration//GEN-END:variables

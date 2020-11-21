@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import rapifood.modelo.Conexion;
 import rapifood.modelo.Producto;
 import rapifood.modelo.ProductoData;
-import rapifood.vistas.AdministradorLogueado;
 
 /**
  *
@@ -23,10 +22,26 @@ public class AgregarProducto extends javax.swing.JFrame {
     
     private Conexion con;
     private ProductoData productoData;
+    private int idAModificar;
+    private boolean isModificar;
+
+    public void setIdAModificar(int idAModificar) {
+        this.idAModificar = idAModificar;
+    }
+
+    public void setIsModificar(boolean isModificar) {
+        this.isModificar = isModificar;
+    }
+    
     public AgregarProducto() {
         initComponents();
+        inicializarComponentes();
+    }
+    
+    private void inicializarComponentes(){
         con = new Conexion();
         productoData = new ProductoData(con);
+        isModificar = false;
     }
     
     private boolean controlCampos(){
@@ -43,7 +58,7 @@ public class AgregarProducto extends javax.swing.JFrame {
         else if(control_nombre && !control_precio){
             JOptionPane.showMessageDialog(this, "Ingrese nombre");
         }
-        else if(control_nombre && !control_precio){
+        else if(!control_nombre && control_precio){
             JOptionPane.showMessageDialog(this, "Ingrese precio");
         }
         else{
@@ -70,6 +85,40 @@ public class AgregarProducto extends javax.swing.JFrame {
         return retorno;
     }
 
+    private void volverAlMenu(){
+        this.setVisible(false);
+        new AdministradorLogueado().setVisible(true);
+    }
+    
+    private boolean controlCamposCorrectos(){
+        boolean controlNombre=false,controlPrecio=false,retorno=false;
+        if(controlCampos()){
+            if(productoYaIngresado()){
+                controlNombre = true;
+            }
+            else if(precioNegativo()){
+                controlPrecio = true;
+            }
+            if(controlNombre && controlPrecio){
+                JOptionPane.showMessageDialog(this, "El nombre ingresado ya se encuentra registrado y el precio es negativo.");
+                tfNombre.setText("");
+                tfPrecio.setText("");
+            }
+            else if(controlNombre && !controlPrecio){
+                JOptionPane.showMessageDialog(this, "Ya hay ingresado un producto con dicho nombre.");
+                tfNombre.setText("");
+            }
+            else if(!controlNombre && controlPrecio){
+                JOptionPane.showMessageDialog(this, "Ingrese un precio coherente.");
+                tfPrecio.setText("");
+            }
+            else{
+                retorno=true;
+            }
+        }
+        return retorno;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -182,29 +231,42 @@ public class AgregarProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_tfPrecioKeyTyped
 
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
-        if(controlCampos()){
-            if(productoYaIngresado()){
-                JOptionPane.showMessageDialog(this, "Ya hay ingresado un producto con dicho nombre.");
-                tfNombre.setText("");
-            }
-            else if(precioNegativo()){
-                JOptionPane.showMessageDialog(this, "Ingrese un precio coherente.");
-                tfPrecio.setText("");
+        if(isModificar){
+            if(productoData.buscarProducto(idAModificar).getNombre().equals(tfNombre.getText())){
+                if(controlCampos()){
+                    if(precioNegativo()){
+                        JOptionPane.showMessageDialog(this, "Ingrese un precio coherente.");
+                        tfPrecio.setText("");
+                    }
+                    else{
+                        Producto producto = new Producto(idAModificar,tfNombre.getText(),Double.parseDouble(tfPrecio.getText()),true);
+                        productoData.actualizarProducto(producto);
+                        JOptionPane.showMessageDialog(this, "Producto modificado correctamente.");
+                        volverAlMenu(); 
+                    }
+                }
             }
             else{
+                if(controlCamposCorrectos()){
+                    Producto producto = new Producto(idAModificar,tfNombre.getText(),Double.parseDouble(tfPrecio.getText()),true);
+                    productoData.actualizarProducto(producto);
+                    JOptionPane.showMessageDialog(this, "Producto modificado correctamente.");
+                    volverAlMenu();
+                    }
+                }
+            }
+        else{
+            if(controlCamposCorrectos()){
                Producto producto = new Producto(tfNombre.getText(),Double.parseDouble(tfPrecio.getText()),true);
                 productoData.guardarProducto(producto);
                 JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
-                AdministradorLogueado aL = new AdministradorLogueado();
-                this.setVisible(false);
-                aL.setVisible(true); 
+                volverAlMenu(); 
             }
         }
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     private void jbBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBackActionPerformed
-        this.setVisible(false);
-        new AdministradorLogueado().setVisible(true);
+        volverAlMenu();
     }//GEN-LAST:event_jbBackActionPerformed
 
     /**

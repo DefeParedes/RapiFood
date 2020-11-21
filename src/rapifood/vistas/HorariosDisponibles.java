@@ -21,15 +21,26 @@ public class HorariosDisponibles extends javax.swing.JFrame {
      */
     
     private Calendar fechaElegida;
+    private boolean isModificar;
+    private int idAModificar;
     
     public HorariosDisponibles() {
         initComponents();
+        isModificar=false;
     }
     
     public void setFechaElegida(Calendar fechaElegida){
         this.fechaElegida = fechaElegida;
     }
 
+    public void setIsModificar(boolean isModificar) {
+        this.isModificar = isModificar;
+    }
+
+    public void setIdAModificar(int idAModificar) {
+        this.idAModificar = idAModificar;
+    }
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -187,21 +198,44 @@ public class HorariosDisponibles extends javax.swing.JFrame {
 
     private void jbAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAceptarActionPerformed
         SeleccionarMesa aM = new SeleccionarMesa();
-        if(bgHorarios.getSelection() == null){
-            JOptionPane.showMessageDialog(this, "Ingrese un horario.");
-        }
-        else
-        {
-            for (Enumeration<AbstractButton> buttons = bgHorarios.getElements(); buttons.hasMoreElements();) { 
-                AbstractButton button = buttons.nextElement(); 
-                if (button.isSelected()){ 
-                    fechaElegida.add(Calendar.HOUR, Integer.parseInt(button.getName()));
-                } 
+        if(isModificar){
+            if(bgHorarios.getSelection() == null){
+                JOptionPane.showMessageDialog(this, "Ingrese un horario.");
             }
-            aM.setFechaElegida(fechaElegida);
-            aM.inicializar();
-            this.setVisible(false);
-            aM.setVisible(true);
+            else{
+                for (Enumeration<AbstractButton> buttons = bgHorarios.getElements(); buttons.hasMoreElements();) { 
+                    AbstractButton button = buttons.nextElement(); 
+                    if (button.isSelected()){ 
+                        fechaElegida.set(Calendar.HOUR, Integer.parseInt(button.getName()));
+                        fechaElegida.set(Calendar.HOUR_OF_DAY, Integer.parseInt(button.getName()));
+                        System.out.println(fechaElegida);
+                    } 
+                }
+                aM.setFechaElegida(fechaElegida);
+                aM.setIsModificar(true);
+                aM.setIdAModificar(idAModificar);
+                aM.inicializar();
+                this.setVisible(false);
+                aM.setVisible(true);
+            }
+        }
+        else{
+            if(bgHorarios.getSelection() == null){
+                JOptionPane.showMessageDialog(this, "Ingrese un horario.");
+            }
+            else{
+                for (Enumeration<AbstractButton> buttons = bgHorarios.getElements(); buttons.hasMoreElements();) { 
+                    AbstractButton button = buttons.nextElement(); 
+                    if (button.isSelected()){ 
+                        fechaElegida.set(Calendar.HOUR, Integer.parseInt(button.getName()));
+                        fechaElegida.set(Calendar.HOUR_OF_DAY, Integer.parseInt(button.getName()));
+                    } 
+                }
+                aM.setFechaElegida(fechaElegida);
+                aM.inicializar();
+                this.setVisible(false);
+                aM.setVisible(true);
+            }         
         }
     }//GEN-LAST:event_jbAceptarActionPerformed
 

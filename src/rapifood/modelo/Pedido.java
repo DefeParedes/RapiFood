@@ -28,6 +28,17 @@ public class Pedido {
         this.fechaPedido = fechaPedido;
     }
 
+    public Pedido(int id, Mesa mesa, Mesero mesero, double monto, boolean estado, Date fechaPedido) {
+        this.id = id;
+        this.mesa = mesa;
+        this.mesero = mesero;
+        this.monto = monto;
+        this.estado = estado;
+        this.fechaPedido = fechaPedido;
+    }
+    
+    
+
     public Pedido(){}
 
     public int getId() {

@@ -22,7 +22,6 @@ import rapifood.modelo.Pedido;
 import rapifood.modelo.PedidoData;
 import rapifood.modelo.Producto;
 import rapifood.modelo.ProductoData;
-import rapifood.vistas.AdministradorLogueado;
 
 
 /**
@@ -31,12 +30,14 @@ import rapifood.vistas.AdministradorLogueado;
  */
 public class AgregarPedido extends javax.swing.JFrame {
 
-    private final Conexion con;
-    private final MesaData mesaData;
-    private final MeseroData meseroData;
-    private final ProductoData productoData;
-    private final PedidoData pedidoData;
-    private final DetallePedidoData detallePedidoData;
+    private Conexion con;
+    private MesaData mesaData;
+    private MeseroData meseroData;
+    private ProductoData productoData;
+    private PedidoData pedidoData;
+    private DetallePedidoData detallePedidoData;
+    private int idAModificar;
+    private boolean isModificar;
     DefaultTableModel modeloProductos;
     DefaultTableModel modeloProductosAgregados;
     private double total=0;
@@ -46,28 +47,58 @@ public class AgregarPedido extends javax.swing.JFrame {
      */
     public AgregarPedido() {
         initComponents();
+        inicializarComponentes();
+    }
+
+    public void setIdAModificar(int idAModificar) {
+        this.idAModificar = idAModificar;
+    }
+
+    public void setIsModificar(boolean isModificar) {
+        this.isModificar = isModificar;
+    }
+    
+    private void inicializarComponentes(){
         con = new Conexion();
         mesaData = new MesaData(con);
         meseroData = new MeseroData(con);
         productoData = new ProductoData(con);
         pedidoData = new PedidoData(con);
         detallePedidoData = new DetallePedidoData(con);
-        List<Mesa> mesasDisponibles = mesaData.obtenerMesas();
+        
         modeloProductos = (DefaultTableModel) jtProductos.getModel();
         modeloProductosAgregados = (DefaultTableModel) jtProductosSeleccionados.getModel();
-        for(Mesa mesa : mesasDisponibles){
+        
+        isModificar=false;
+        
+        cargarMesas();
+        cargarMeseros();
+        cargarProductos();
+    }
+    
+    private void cargarMesas(){
+        for(Mesa mesa : mesaData.obtenerMesas()){
             if(mesa.isEstado()){
                 cbMesas.addItem(String.valueOf(mesa.getId()));
             }
         }
-        List<Mesero> meserosDisponibles = meseroData.obtenerMeseros();
-        for(Mesero mesero : meserosDisponibles){
+    }
+    
+    private void cargarMeseros(){
+        for(Mesero mesero : meseroData.obtenerMeseros()){
             cbMeseros.addItem(mesero.getNombre());
         }
-        List<Producto> productosDisponibles = productoData.obtenerProductosActivos();
-        for(Producto producto : productosDisponibles){
+    }
+    
+    private void cargarProductos(){
+        for(Producto producto : productoData.obtenerProductosActivos()){
             modeloProductos.addRow(new Object[]{producto.getNombre(),producto.getPrecio(),producto.getId()});
         }
+    }
+    
+    private void volverAlMenu(){
+        new AdministradorLogueado().setVisible(true);
+        this.setVisible(false);
     }
 
     /**
@@ -311,41 +342,73 @@ public class AgregarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_jbBorrarProductoActionPerformed
 
     private void jbFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarActionPerformed
-        List<Mesero> meseros = meseroData.obtenerMeseros();
         List<Producto> productos = new ArrayList<>();
         Mesero meseroSeleccionado = null;
-        if(jtProductosSeleccionados.getRowCount()==0){
+        if(isModificar){
+            if(jtProductosSeleccionados.getRowCount()==0){
             JOptionPane.showMessageDialog(this, "Debe ingresar por lo menos un producto.");
+            }
+            else{
+                for(Mesero mesero : meseroData.obtenerMeseros()){
+                    if(mesero.getNombre().equals(cbMeseros.getSelectedItem().toString())){
+                    meseroSeleccionado = mesero;
+                    }
+                }
+                Mesa mesa = mesaData.buscarMesa(Integer.parseInt(cbMesas.getSelectedItem().toString()));
+                double monto = total;
+                for(int i=0;i<jtProductosSeleccionados.getRowCount();i++){
+                    for(int j=0;j<Integer.parseInt(jtProductosSeleccionados.getValueAt(i, 2).toString());j++){
+                        productos.add(productoData.buscarProducto(Integer.parseInt(jtProductosSeleccionados.getValueAt(i, 3).toString())));
+                    }
+                }
+                Date fechaPedido = Date.valueOf(LocalDate.now());
+                Pedido pedido = new Pedido(idAModificar,mesa,meseroSeleccionado,monto,true,fechaPedido);
+                pedidoData.actualizarPedido(pedido);
+                for(DetallePedido detalle : detallePedidoData.obtenerDetallesPedidos()){
+                    if(detalle.getPedido().getId() == idAModificar){
+                        detallePedidoData.borrarDetallePedido(detalle.getId());
+                    }
+                }
+                for(Producto producto : productos){
+                    DetallePedido detalle = new DetallePedido(pedido,producto);
+                    detallePedidoData.guardarDetallePedido(detalle);
+                }
+                JOptionPane.showMessageDialog(this, "Pedido realizado correctamente.");
+                volverAlMenu();
+            }
         }
         else{
-            for(Mesero mesero : meseros){
-                if(mesero.getNombre().equals(cbMeseros.getSelectedItem().toString())){
-                meseroSeleccionado = mesero;
+            if(jtProductosSeleccionados.getRowCount()==0){
+                JOptionPane.showMessageDialog(this, "Debe ingresar por lo menos un producto.");
+            }
+            else{
+                for(Mesero mesero : meseroData.obtenerMeseros()){
+                    if(mesero.getNombre().equals(cbMeseros.getSelectedItem().toString())){
+                    meseroSeleccionado = mesero;
+                    }
                 }
-            }
-            Mesa mesa = mesaData.buscarMesa(Integer.parseInt(cbMesas.getSelectedItem().toString()));
-            double monto = total;
-            for(int i=0;i<jtProductosSeleccionados.getRowCount();i++){
-                for(int j=0;j<Integer.parseInt(jtProductosSeleccionados.getValueAt(i, 2).toString());j++){
-                    productos.add(productoData.buscarProducto(Integer.parseInt(jtProductosSeleccionados.getValueAt(i, 3).toString())));
+                Mesa mesa = mesaData.buscarMesa(Integer.parseInt(cbMesas.getSelectedItem().toString()));
+                double monto = total;
+                for(int i=0;i<jtProductosSeleccionados.getRowCount();i++){
+                    for(int j=0;j<Integer.parseInt(jtProductosSeleccionados.getValueAt(i, 2).toString());j++){
+                        productos.add(productoData.buscarProducto(Integer.parseInt(jtProductosSeleccionados.getValueAt(i, 3).toString())));
+                    }
                 }
+                Date fechaPedido = Date.valueOf(LocalDate.now());
+                Pedido pedido = new Pedido(mesa,meseroSeleccionado,monto,true,fechaPedido);
+                pedidoData.guardarPedido(pedido);
+                for(Producto producto : productos){
+                    DetallePedido detalle = new DetallePedido(pedido,producto);
+                    detallePedidoData.guardarDetallePedido(detalle);
+                }
+                JOptionPane.showMessageDialog(this, "Pedido realizado correctamente.");
+                volverAlMenu();
             }
-            Date fechaPedido = Date.valueOf(LocalDate.now());
-            Pedido pedido = new Pedido(mesa,meseroSeleccionado,monto,true,fechaPedido);
-            pedidoData.guardarPedido(pedido);
-            for(Producto producto : productos){
-                DetallePedido detalle = new DetallePedido(pedido,producto);
-                detallePedidoData.guardarDetallePedido(detalle);
-            }
-            JOptionPane.showMessageDialog(this, "Pedido realizado correctamente.");
-            new AdministradorLogueado().setVisible(true);
-            this.setVisible(false);
         }
     }//GEN-LAST:event_jbFinalizarActionPerformed
 
     private void jbBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBackActionPerformed
-        this.setVisible(false);
-        new AdministradorLogueado().setVisible(true);
+        volverAlMenu();
     }//GEN-LAST:event_jbBackActionPerformed
 
     /**
